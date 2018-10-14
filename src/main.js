@@ -13,7 +13,6 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-import i18n from './langs' // Internationalization
 import './icons' // icon
 import './errorLog' // error log
 import './permission' // permission control
@@ -21,9 +20,35 @@ import './mock' // simulation data
 
 import * as filters from './filters' // global filters
 
+import VueI18n from 'vue-i18n'
+import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang
+import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'// element-ui lang
+import enLang from './langs/en'
+import zhLang from './langs/zh'
+
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
-  i18n: (key, value) => i18n.t(key, value)
+  size: Cookies.get('size') || 'medium' // set element-ui default size
+})
+
+Vue.use(VueI18n)
+
+const messages = {
+  en: {
+    ...enLang,
+    ...elementEnLocale
+  },
+  zh: {
+    ...zhLang,
+    ...elementZhLocale
+  }
+}
+
+const i18n = new VueI18n({
+  // set locale
+  // options: en or zh
+  locale: Cookies.get('language') || 'en',
+  // set locale messages
+  messages
 })
 
 // register global utility filters.
